@@ -201,7 +201,7 @@ namespace efk
 
 #pragma region
 	static std::map<Effekseer::TextureData*, std::basic_string<EFK_CHAR>> g_glTex2FilePath;
-	static std::map<std::basic_string<EFK_CHAR>, cocos2d::CCTexture2D*> g_filePath2CTex;
+	static std::map<std::basic_string<EFK_CHAR>, cocos2d::Texture2D*> g_filePath2CTex;
 	static std::map<std::basic_string<EFK_CHAR>, Effekseer::TextureData*> g_filePath2EffectData;
 
 	class TextureLoader
@@ -254,8 +254,8 @@ namespace efk
 			char* data_texture = new char[size_texture];
 			reader->Read(data_texture, size_texture);
 
-			cocos2d::CCImage* image = new cocos2d::CCImage();
-			cocos2d::CCTexture2D* texture = new cocos2d::CCTexture2D();
+			cocos2d::Image* image = new cocos2d::Image();
+			cocos2d::Texture2D* texture = new cocos2d::Texture2D();
 			if (image != nullptr &&
 				texture != nullptr &&
 				image->initWithImageData((const uint8_t*)data_texture, size_texture))
@@ -266,11 +266,11 @@ namespace efk
 				}
 				else
 				{
-					CC_SAFE_DELETE(texture);
-					CC_SAFE_DELETE(image);
+					texture->release();
+					image->release();
 				}
 			}
-			CC_SAFE_DELETE(image);
+			image->release();
 
 			delete[] data_texture;
 
